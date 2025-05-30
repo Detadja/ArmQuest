@@ -7,11 +7,12 @@ address = "5B:86:37:1F:4E:7F" # Arduino Nano 33 BLE Rev3 MAC Address
 
 def handle_notification(sender, data):
     try:
-        print(f"EMG: {data.decode().strip()}")
+        print(f"{data.decode().strip()}")
+        return data.decode()
     except Exception as e:
         print(f"Error decoding data: {e}")
 
-async def main():
+def get_values():
     async with BleakClient(address) as client:
         print("Connecting...")
 
@@ -35,6 +36,31 @@ async def main():
         finally:
             await client.stop_notify(CHAR_UUID)
             print("Disconnected.")
+
+#async def main():
+#    async with BleakClient(address) as client:
+#        print("Connecting...")
+#
+#        if not client.is_connected:
+#            print("Failed to connect.")
+#            return
+#
+#        print(f"Connected to {address}. Streaming data...")
+        
+        # Start receiving notifications from Arduino
+#        await client.start_notify(CHAR_UUID, handle_notification)
+#        value = await client.read_gatt_char(CHAR_UUID)
+#        print("Received: ", value.decode())
+        
+        # Keep the program running while connected
+#        try:
+#            while client.is_connected:
+#                await asyncio.sleep(1)
+#        except KeyboardInterrupt:
+#            print("interrupted by user.")
+#        finally:
+#            await client.stop_notify(CHAR_UUID)
+#            print("Disconnected.")
 
 
 #def handle_notification(sender, data):

@@ -1,7 +1,7 @@
 #include <ArduinoBLE.h>
 
 #define EMG1 A0 // A0
-#define EMG2 15 // A1
+#define EMG2 A1 // A1
 #define EMG3 16 // A2
 #define EMG4 17 // A3
 
@@ -10,7 +10,13 @@
 // FUNCTIONS & OUTSIDE VARIABLES
 const int muscle[4]    = {EMG1, EMG2, EMG3, EMG4};
 float     emg_val[4]   = {0, 0, 0, 0};
-const int threshold[4] = {900, 900, 0, 0}; // Adjust as needed can very depending on electrode placement
+float     emg_norm[4]  = {0, 0, 0, 0};
+const int emg_min[4] = {50, 40, 0, 0}; // Adjust as needed can very depending on electrode placement
+const int emg_max[4] = {350, 600, 0, 0}; // Adjust as needed can very depending on electrode placement
+
+static float angle        = 0.0;
+static float emg_delta[2] = {0.0, 0.0};
+
 
 // Create a BLE service and a characteristic
 BLEService simpleService("180C"); // Custom service UUID
@@ -60,12 +66,29 @@ void loop() {
       // emg_val[2] = analogRead(muscle[2]);
       // emg_val[3] = analogRead(muscle[3]);
 
-      // (emg_val[0] > threshold[0]) ? Serial.println("Muscle 1 Activated!") : Serial.println("Muscle 1 NOT Activated!");
-      // (emg_val[1] > threshold[1]) ? Serial.println("Muscle 2 Activated!") : Serial.println("Muscle 2 NOT Activated!");
-      // (emg_val[2] > threshold[2]) ? Serial.println("Muscle 3 Activated!") : Serial.println("Muscle 3 NOT Activated!");
-      // (emg_val[3] > threshold[3]) ? Serial.println("Muscle 4 Activated!") : Serial.println("Muscle 4 NOT Activated!");
+      // Clamp values
+      for (int i = 0; i < 4; i++)
+      {
+        // Clamp values
+        emg_val[i] = constrain(emg_val[i], emg_min[i], emg_max[i]);
+
+        // Normalize
+        emg_norm[i] = (float)(emg_val[i] - emg_min[i]) / (emg_max[i] - emg_min[i]);
+      }
+
+      // Compute signed balance: positive = front, negative = back
+      emg_delta[0] = emg_norm[0] - emg_norm[1];
+      // emg_delta[1] = 
+
+      // Map to angle:
+      // muscleDelta = -1 -> -45Deg (back contraction)
+      // MuscleDetla = 0 -> 0Deg (neutral)
+      // MuscleDelta = +1 -> 135Deg (front contraction)
       
-      messageChar.writeValue(String(emg_val[0]));
+      (emg_delta[0] >= 0) ? angle = emg_delta[0] * 135 : emg_delta[0] * 45;
+      // (emg_delta[1] >= 0) ? angle = emg_delta[1] * 135 : emg_delta[1] * 45;
+      
+      messageChar.writeValue(String(emg_delta[0]));
       Serial.print("Destination Device Received: ");
       Serial.println(messageChar.value());
       

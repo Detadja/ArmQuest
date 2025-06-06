@@ -1,5 +1,3 @@
-#include <ArduinoBLE.h>
-
 #define EMG1 A0
 #define EMG2 A1
 #define EMG3 A2

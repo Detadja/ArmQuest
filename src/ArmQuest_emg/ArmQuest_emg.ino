@@ -1,9 +1,9 @@
 #include <ArduinoBLE.h>
 
-#define EMG1 A0 // A0
-#define EMG2 15 // A1
-#define EMG3 16 // A2
-#define EMG4 17 // A3
+#define EMG1 A0
+#define EMG2 A1
+#define EMG3 A2
+#define EMG4 A3 
 
 // Arduino Nano 33 BLE Rev3 MAC Address: 5B:86:37:1F:4E:7F
 
@@ -43,7 +43,7 @@ void loop() {
 
   // Compute signed balance: positive = front, negative = back
   emg_delta[0] = emg_norm[0] - emg_norm[1];
-  // emg_delta[1] = 
+  // emg_delta[1] = emg_norm[2] - emg_norm[3];
 
   // Map to angle:
   // muscleDelta = -1 -> -45Deg (back contraction)

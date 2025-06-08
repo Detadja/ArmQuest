@@ -15,7 +15,7 @@ float     emg_avg[4] = {0, 0, 0, 0};
 
 static float angle        = 0.0;
 static float emg_delta[2] = {0.0, 0.0};\
-int count = 0;
+int    count              = 0;
 
 
 // INITIALIZATIONS
@@ -33,12 +33,11 @@ void loop() {
 
   if (count == 10)
   {
+    // Average values (10 samples each)
     emg_avg[0] /= 10;
-    emg_avg[1] /= 10;
-    emg_avg[2] /= 10;
-    emg_avg[3] /= 10;
-
-    Serial.print(emg_avg[0]);
+    // emg_avg[1] /= 10;
+    // emg_avg[2] /= 10;
+    // emg_avg[3] /= 10;
     
     // // Clamp values
     // for (int i = 0; i < 4; i++)
@@ -62,6 +61,11 @@ void loop() {
     // (emg_delta[0] >= 0) ? angle = emg_delta[0] * 135 : emg_delta[0] * 45;
     // (emg_delta[1] >= 0) ? angle = emg_delta[1] * 135 : emg_delta[1] * 45;
 
+    Serial.print(emg_avg[0]);
+    // Serial.print(emg_avg[1]);
+    // Serial.print(emg_avg[2]);
+    // Serial.print(emg_avg[3]);
+
     // Serial.println(emg_delta[0]);
     // Serial.print(',');
     // Serial.println(emg_delta[1]);
@@ -79,9 +83,9 @@ void loop() {
   else
   {
     emg_avg[0] += emg_val[0];
-    emg_avg[1] += emg_val[1];
-    emg_avg[2] += emg_val[2];
-    emg_avg[3] += emg_val[3];
+    // emg_avg[1] += emg_val[1];
+    // emg_avg[2] += emg_val[2];
+    // emg_avg[3] += emg_val[3];
     count++;
   }
 

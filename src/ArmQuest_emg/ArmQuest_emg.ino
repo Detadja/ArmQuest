@@ -14,8 +14,8 @@ const int emg_max[4] = {350, 600, 0, 0}; // Adjust as needed can very depending 
 float     emg_avg[4] = {0, 0, 0, 0};
 
 static float angle        = 0.0;
-static float emg_delta[2] = {0.0, 0.0};\
-int    count              = 0;
+static float emg_delta[2] = {0.0, 0.0};
+int          count        = 0;
 
 
 // INITIALIZATIONS

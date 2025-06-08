@@ -1,4 +1,5 @@
 #include <ArduinoBLE.h>
+#include <string.h>
 
 #define EMG1 A0 // A0
 #define EMG2 15 // A1
@@ -17,7 +18,7 @@ float     emg_avg[4] = {0, 0, 0, 0};
 
 static float angle        = 0.0;
 static float emg_delta[2] = {0.0, 0.0};
-int    count              = 0;
+int          count        = 0;
 
 // Create a BLE service and a characteristic
 BLEService simpleService("180C"); // Custom service UUID
@@ -63,7 +64,7 @@ void loop() {
 
     while (central.connected()) {
       emg_val[0] = analogRead(muscle[0]);
-      // emg_val[1] = analogRead(muscle[1]);
+      emg_val[1] = analogRead(muscle[1]);
       // emg_val[2] = analogRead(muscle[2]);
       // emg_val[3] = analogRead(muscle[3]);
 
@@ -73,7 +74,7 @@ void loop() {
         for (int i = 0; i < 4; i++)
         {
           // Average values (10 samples each)
-          amg_avg[i] /= 10;
+          emg_avg[i] /= 10;
 
           // Clamp values
           emg_avg[i] = constrain(emg_avg[i], emg_min[i], emg_max[i]);
@@ -90,18 +91,15 @@ void loop() {
         // muscleDelta = -1 -> -45Deg (back contraction)
         // MuscleDetla = 0 -> 0Deg (neutral)
         // MuscleDelta = +1 -> 135Deg (front contraction)
-        
+        // TODO: CHANGE ANGLE MAPPING FOR ELBOW JOINT        
         (emg_delta[0] >= 0) ? angle = emg_delta[0] * 135 : emg_delta[0] * 45;
         // (emg_delta[1] >= 0) ? angle = emg_delta[1] * 135 : emg_delta[1] * 45;
         
-        messageChar.writeValue(String(emg_val[0]));
+        String msg = emg_delta[0] + ',' + emg_delta[1];
+
+        messageChar.writeValue(msg);
         Serial.print("Destination Device Received: ");
         Serial.println(messageChar.value());
-
-        // Serial.print(emg_avg[0]);
-        // Serial.print(emg_avg[1]);
-        // Serial.print(emg_avg[2]);
-        // Serial.print(emg_avg[3]);
         
         // Serial.println(emg_val[0]);
         // Serial.print(',');
@@ -112,15 +110,25 @@ void loop() {
         // Serial.print(emg_val[3]);
 
         count = 0;
+        emg_avg[0] = 0;
+        emg_avg[1] = 0;
       }
       else
       {
         emg_avg[0] += emg_val[0];
-        // emg_avg[1] += emg_val[1];
+        emg_avg[1] += emg_val[1];
         // emg_avg[2] += emg_val[2];
         // emg_avg[3] += emg_val[3];
         count++;
       }
+
+      // Serial.print(emg_avg[0]);
+      // Serial.print(',');
+      // Serial.print(emg_avg[1]);
+      // Serial.print(',');
+      // Serial.print(emg_avg[2]);
+      // Serial.print(',');
+      // Serial.print(emg_avg[3]);
 
       delay(10);
     }

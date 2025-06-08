@@ -1,4 +1,4 @@
-#define EMG1 A0
+#define EMG1 A1
 #define EMG2 A1
 #define EMG3 A2
 #define EMG4 A3 
@@ -35,48 +35,43 @@ void loop() {
   {
     // Average values (10 samples each)
     emg_avg[0] /= 10;
-    // emg_avg[1] /= 10;
+    emg_avg[1] /= 10;
     // emg_avg[2] /= 10;
     // emg_avg[3] /= 10;
     
-    // // Clamp values
-    // for (int i = 0; i < 4; i++)
-    // {
-    //   // Clamp values
-    //   emg_val[i] = constrain(emg_val[i], emg_min[i], emg_max[i]);
+    // Clamp values
+    for (int i = 0; i < 4; i++)
+    {
+      // Clamp values
+      emg_val[i] = constrain(emg_val[i], emg_min[i], emg_max[i]);
 
-    //   // Normalize
-    //   emg_norm[i] = (float)(emg_val[i] - emg_min[i]) / (emg_max[i] - emg_min[i]);
-    // }
+      // Normalize
+      emg_norm[i] = (float)(emg_val[i] - emg_min[i]) / (emg_max[i] - emg_min[i]);
+    }
 
-    // // Compute signed balance: positive = front, negative = back
-    // emg_delta[0] = emg_norm[0] - emg_norm[1];
-    // // emg_delta[1] = emg_norm[2] - emg_norm[3];
+    // Compute signed balance: positive = front, negative = back
+    emg_delta[0] = emg_norm[0] - emg_norm[1];
+    // emg_delta[1] = emg_norm[2] - emg_norm[3];
 
-    // // Map to angle:
-    // // muscleDelta = -1 -> -45Deg (back contraction)
-    // // MuscleDetla = 0 -> 0Deg (neutral)
-    // // MuscleDelta = +1 -> 135Deg (front contraction)
+    // Map to angle:
+    // muscleDelta = -1 -> -45Deg (back contraction)
+    // MuscleDetla = 0 -> 0Deg (neutral)
+    // MuscleDelta = +1 -> 135Deg (front contraction)
     
-    // (emg_delta[0] >= 0) ? angle = emg_delta[0] * 135 : emg_delta[0] * 45;
-    // (emg_delta[1] >= 0) ? angle = emg_delta[1] * 135 : emg_delta[1] * 45;
+    (emg_delta[0] >= 0) ? angle = emg_delta[0] * 135 : emg_delta[0] * 45;
+    (emg_delta[1] >= 0) ? angle = emg_delta[1] * 135 : emg_delta[1] * 45;
 
     Serial.print(emg_avg[0]);
-    // Serial.print(emg_avg[1]);
+    Serial.print(',');
+    Serial.println(emg_avg[1]);
+    // Serial.print(',');
     // Serial.print(emg_avg[2]);
+    // Serial.print(',');
     // Serial.print(emg_avg[3]);
 
-    // Serial.println(emg_delta[0]);
+    Serial.println(emg_delta[0]);/
     // Serial.print(',');
     // Serial.println(emg_delta[1]);
-    
-    // Serial.println(emg_val[0]);
-    // Serial.print(',');
-    // Serial.println(emg_val[1]);
-    // Serial.print(',');
-    // Serial.print(emg_val[2]);
-    // Serial.print(',');
-    // Serial.print(emg_val[3]);
 
     count = 0;
   }
@@ -88,6 +83,14 @@ void loop() {
     // emg_avg[3] += emg_val[3];
     count++;
   }
+
+  // Serial.println(emg_val[0]);
+  // Serial.print(',');
+  // Serial.println(emg_val[1]);
+  // Serial.print(',');
+  // Serial.print(emg_val[2]);
+  // Serial.print(',');
+  // Serial.print(emg_val[3]);
 
   delay(10);
 

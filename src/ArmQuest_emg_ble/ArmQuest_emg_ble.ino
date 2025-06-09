@@ -95,9 +95,9 @@ void loop() {
         (emg_delta[0] >= 0) ? angle = emg_delta[0] * 135 : emg_delta[0] * 45;
         // (emg_delta[1] >= 0) ? angle = emg_delta[1] * 135 : emg_delta[1] * 45;
         
-        String msg = emg_delta[0] + ',' + emg_delta[1];
+        // String msg = emg_delta[0] + "," + emg_delta[1];
 
-        messageChar.writeValue(msg);
+        messageChar.writeValue(String(emg_delta[0]));
         Serial.print("Destination Device Received: ");
         Serial.println(messageChar.value());
         

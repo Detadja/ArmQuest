@@ -33,8 +33,8 @@ Place the MyoWare sensors on two muscles of your choice, and connect them to the
 * If using BLE, make sure to edit the `socketcomm.py` file with the correct MAC Address of the BLE microcontroller board used.
 * If using serial, edit the `socketcomm.py` file to exclude BLE functionalities.
 * It is located in:
-```Filepath
-flowchart LR
+```mermaid
+graph LR;
   A["ArmQuest TesEnv"] --> B["Assets"] --> C["Scripts"] --> D["socketcomm.py"];
 ```
 

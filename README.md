@@ -1,11 +1,13 @@
 # ArmQuest
+[![ArmQuest Logo](https://github.com/Detadja/ArmQuest/blob/main/Media/ArmQuest%20Logo.png)](https://github.com/Detadja)
+
 Codebase for EMG data acquisition and real-time analysis of ArmQuest, an EMG-based VR application for physical rehabilitation.
 
-## Descriptoin
-**`ArmQuest_emg`** - This file includes the serial EMG data acquisition, pre-processing, and processing.
-**`ArmQuest_emg_ble`** - This file includes similar code to `ArmQuest_emg`, with the additional feature of wireless communication via BLE.
-**`ble_test`** - This file includes the testing of BLE capabilities for whichever BLE microcontroller board is used.
-**`socketcomm`** - This file includes the receiver for wireless BLE communication, as well as translating the received data into the appropriate movement in-game.
+## Description
+* **`ArmQuest_emg`** - This file includes the serial EMG data acquisition, pre-processing, and processing.
+* **`ArmQuest_emg_ble`** - This file includes similar code to `ArmQuest_emg`, with the additional feature of wireless communication via BLE.
+* **`ble_test`** - This file includes the testing of BLE capabilities for whichever BLE microcontroller board is used.
+* **`socketcomm`** - This file includes the receiver for wireless BLE communication, as well as translating the received data into the appropriate movement in-game.
 
 ## Components
 * MyoWare Muscle Sensor 2.0

@@ -19,6 +19,8 @@ Codebase for EMG data acquisition and real-time analysis of ArmQuest, an EMG-bas
 ## Setup
 Place the MyoWare sensors on two muscles of your choice, and connect them to the Arduino.
 
+[![ArmQuest Image Description](https://github.com/Detadja/ArmQuest/blob/main/Media/ArmQuest.png)](https://github.com/Detadja)
+
 ### ArmQuest_emg or ArmQuest_emg_ble
 * If using a serial connection (`ArmQuest_emg`), ensure your computer is not connected to a power source. Then run the program once ready.
 * If using BLE functionality (`ArmQuest_emg_ble`), once the program is run, it is on standby.

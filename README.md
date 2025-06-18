@@ -1,5 +1,6 @@
 # ArmQuest
 [![ArmQuest Logo](https://github.com/Detadja/ArmQuest/blob/main/Media/ArmQuest%20Logo.png)](https://github.com/Detadja)
+
 Codebase for EMG data acquisition and real-time analysis of ArmQuest, an EMG-based VR application for physical rehabilitation.
 
 ## Descriptoin
